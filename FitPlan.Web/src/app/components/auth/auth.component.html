@@ -1,0 +1,17 @@
+<h2>{{ isLogin ? 'Login' : 'Registrati' }}</h2>
+
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+  <input formControlName="email" placeholder="Email" type="email">
+  <input formControlName="password" placeholder="Password" type="password">
+  
+  @if (!isLogin) {
+    <input formControlName="firstName" placeholder="Nome">
+    <input formControlName="lastName" placeholder="Cognome">
+  }
+
+  <button type="submit">{{ isLogin ? 'Entra' : 'Crea Account' }}</button>
+</form>
+
+<button (click)="isLogin = !isLogin">
+  {{ isLogin ? 'Non hai un account? Registrati' : 'Hai già un account? Login' }}
+</button>
