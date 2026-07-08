@@ -29,7 +29,7 @@ export class AuthComponent {
     } else {
       this.authService.register(this.authForm.value).subscribe(res => {
         console.log('Utente creato!');
-        this.isLogin = true; // Torna al login dopo la registrazione
+        this.isLogin = true; 
       });
     }
   }
