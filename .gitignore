@@ -11,3 +11,9 @@ appsettings.Development.json
 # IDE
 .vscode/
 .idea/
+/.vs
+/FitPlan.Api/.vs/FitPlan.Api/CopilotIndices/17.14.1691.21253
+/FitPlan.Api/.vs/FitPlan.Api/config
+/FitPlan.Api/.vs/FitPlan.Api/DesignTimeBuild
+/FitPlan.Api/.vs/FitPlan.Api/FileContentIndex
+/FitPlan.Api/.vs/FitPlan.Api/v17
