@@ -1,17 +1,48 @@
-<h2>{{ isLogin ? 'Login' : 'Registrati' }}</h2>
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
 
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-  <input formControlName="email" placeholder="Email" type="email">
-  <input formControlName="password" placeholder="Password" type="password">
-  
-  @if (!isLogin) {
-    <input formControlName="firstName" placeholder="Nome">
-    <input formControlName="lastName" placeholder="Cognome">
-  }
+  <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+    {{ isLogin ? 'Sign in' : 'Sign up' }}
+  </h2>
 
-  <button type="submit">{{ isLogin ? 'Entra' : 'Crea Account' }}</button>
-</form>
+  <h2 class="text-md font-bold text-gray-900 dark:text-white mb-6 text-center">
+    {{ isLogin ? 'Login' : 'Register' }}
+  </h2>
 
-<button (click)="isLogin = !isLogin">
-  {{ isLogin ? 'Non hai un account? Registrati' : 'Hai già un account? Login' }}
-</button>
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-4">
+
+    <div>
+      <label for="email" class="form-label">Email</label>
+      <input id="email" formControlName="email" type="email"
+             placeholder="nome@esempio.com" class="form-input">
+    </div>
+
+    <div>
+      <label for="password" class="form-label">Password</label>
+      <input id="password" formControlName="password" type="password"
+             placeholder="••••••••" class="form-input">
+    </div>
+
+    @if (!isLogin) {
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="firstName" class="form-label">Nome</label>
+          <input id="firstName" formControlName="firstName" placeholder="Nome" class="form-input">
+        </div>
+        <div>
+          <label for="lastName" class="form-label">Cognome</label>
+          <input id="lastName" formControlName="lastName" placeholder="Cognome" class="form-input">
+        </div>
+      </div>
+    }
+
+    <button type="submit" class="btn btn-primary w-full">
+      {{ isLogin ? 'Entra' : 'Crea Account' }}
+    </button>
+  </form>
+
+  <button (click)="isLogin = !isLogin"
+    class="mt-4 text-sm text-blue-700 hover:underline dark:text-blue-400 w-full text-center">
+    {{ isLogin ? 'Non hai un account? Registrati' : 'Hai già un account? Login' }}
+  </button>
+
+</div>

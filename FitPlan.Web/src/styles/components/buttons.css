@@ -1,0 +1,14 @@
+@layer components {
+  .btn {
+    @apply px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 focus:ring-4 inline-flex items-center justify-center;
+  }
+  .btn-primary {
+    @apply bg-primary-700 text-white hover:bg-primary-800 focus:ring-primary-300;
+  }
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-100;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-300;
+  }
+}
