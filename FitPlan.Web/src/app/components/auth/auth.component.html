@@ -4,45 +4,41 @@
     {{ isLogin ? 'Sign in' : 'Sign up' }}
   </h2>
 
-  <h2 class="text-md font-bold text-gray-900 dark:text-white mb-6 text-center">
-    {{ isLogin ? 'Login' : 'Register' }}
-  </h2>
-
   <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-4">
 
     <div>
       <label for="email" class="form-label">Email</label>
       <input id="email" formControlName="email" type="email"
-             placeholder="nome@esempio.com" class="form-input">
+             placeholder="Type your email" class="form-input">
     </div>
 
     <div>
       <label for="password" class="form-label">Password</label>
       <input id="password" formControlName="password" type="password"
-             placeholder="••••••••" class="form-input">
+             placeholder="Type your password" class="form-input">
     </div>
 
     @if (!isLogin) {
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label for="firstName" class="form-label">Nome</label>
-          <input id="firstName" formControlName="firstName" placeholder="Nome" class="form-input">
+          <label for="firstName" class="form-label">First Name</label>
+          <input id="firstName" formControlName="firstName" placeholder="First Name" class="form-input">
         </div>
         <div>
-          <label for="lastName" class="form-label">Cognome</label>
-          <input id="lastName" formControlName="lastName" placeholder="Cognome" class="form-input">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input id="lastName" formControlName="lastName" placeholder="Last Name" class="form-input">
         </div>
       </div>
     }
 
     <button type="submit" class="btn btn-primary w-full">
-      {{ isLogin ? 'Entra' : 'Crea Account' }}
+      {{ isLogin ? 'Sign in' : 'Sign up' }}
     </button>
   </form>
 
   <button (click)="isLogin = !isLogin"
-    class="mt-4 text-sm text-blue-700 hover:underline dark:text-blue-400 w-full text-center">
-    {{ isLogin ? 'Non hai un account? Registrati' : 'Hai già un account? Login' }}
+    class="mt-4 text-sm text-blue-700 hover:underline dark:text-blue-400 w-full text-center cursor-pointer">
+    {{ isLogin ? 'Don\'t have an account? Sign up' : 'Already have an account? Sign in' }}
   </button>
 
 </div>
