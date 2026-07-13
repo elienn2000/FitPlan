@@ -12,14 +12,15 @@ import{MessageService} from '../../services/message.service';
 })
 export class AuthComponent {
   authForm: FormGroup;
-  isLogin = true; // Toggle per passare da Login a Register
+  isLogin = true; // Toggle between login and registration
+  showPassword = false; // Toggle for password visibility
   
   constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService) {
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      firstName: [''], // Solo per registrazione
-      lastName: ['']   // Solo per registrazione
+      firstName: [''], // Only for registration
+      lastName: ['']   // Only for registration
     });
   }
   
@@ -30,15 +31,15 @@ export class AuthComponent {
       }, error => {
         
         if (error.status === 401) {
-          this.messageService.show('error', 'Email o password non valide.');
+          this.messageService.show('error', 'Email or password not valid.');
         } else {
-          this.messageService.show('error', 'Si è verificato un errore di rete.');
+          this.messageService.show('error', 'A network error occurred.');
         }
       }
     );
   } else {
     this.authService.register(this.authForm.value).subscribe(res => {
-      console.log('Utente creato!');
+      console.log('Registration successful:', res);
       this.isLogin = true; 
     });
   }
