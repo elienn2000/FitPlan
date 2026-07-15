@@ -1,0 +1,61 @@
+<div class="space-y-6">
+      
+      <!-- Intestazione -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Panoramica Sistema</h1>
+          <p class="text-sm text-gray-500 mt-1">Stato in tempo reale delle attività e delle giacenze.</p>
+        </div>
+        
+        <!-- Bottone di test (es. ricarica dati) -->
+        <button class="mt-4 md:mt-0 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+          Aggiorna Dati
+        </button>
+      </div>
+
+      <!-- Griglia delle Statistiche (Responsive) -->
+      <!-- 1 colonna su mobile, 3 colonne su schermi medi in su -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Ciclo sulle statistiche fittizie -->
+        <div *ngFor="let stat of kpiStats" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+          <div class="p-3 rounded-full" [ngClass]="stat.bgColor">
+            <!-- Icona dinamica in base al dato (SVG raw come placeholder) -->
+            <svg class="w-6 h-6" [ngClass]="stat.textColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="stat.icon"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-500">{{ stat.label }}</p>
+            <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- Area Contenuto Principale (Grafico o Tabella) -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 min-h-[400px]">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Andamento Storico</h2>
+          <span class="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded-full">Online</span>
+        </div>
+        
+        <!-- Placeholder visivo per il grafico -->
+        <div class="w-full h-72 bg-slate-50 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center">
+          <p class="text-slate-400 font-medium">Area riservata al Chart (es. Chart.js o ECharts)</p>
+        </div>
+      </div>
+
+      <!-- Box extra per testare lo scroll verticale del layout -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Log di Sistema recenti</h2>
+        <div class="space-y-3">
+          <div *ngFor="let i of [1,2,3,4,5]" class="flex items-center text-sm p-3 bg-gray-50 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-blue-500 mr-3"></span>
+            <span class="text-gray-600 font-mono">Sincronizzazione completata con successo (ID: {{ i }}4892)</span>
+            <span class="ml-auto text-gray-400 text-xs">1{{ i }} min fa</span>
+          </div>
+        </div>
+      </div>
+
+    </div>

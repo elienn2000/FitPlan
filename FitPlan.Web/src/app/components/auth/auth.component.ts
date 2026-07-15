@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import{MessageService} from '../../services/message.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class AuthComponent {
   isLogin = true; // Toggle between login and registration
   showPassword = false; // Toggle for password visibility
   
-  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) {
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -28,6 +29,9 @@ export class AuthComponent {
     if (this.isLogin) {
       this.authService.login(this.authForm.value).subscribe(res => {
         this.messageService.show('success', 'Bentornato! Login effettuato.');
+        
+        // Handle successful login, e.g., redirect to dashboard
+        this.router.navigate(['/app/dashboard']);
       }, error => {
         
         if (error.status === 401) {

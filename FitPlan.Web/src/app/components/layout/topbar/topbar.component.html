@@ -1,0 +1,15 @@
+ <!-- Bottone Hamburger visibile SOLO su mobile (md:hidden) -->
+    <button 
+      (click)="onToggle()" 
+      class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-md focus:outline-none">
+      <!-- Icona Hamburger (SVG inline o FontAwesome/Material) -->
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    
+    <!-- Logo o titolo visibile sempre -->
+    <div class="font-bold text-xl ml-2 md:ml-0 text-gray-800">Mia App</div>
+    
+    <!-- Area utente a destra -->
+    <div>Profilo</div>
