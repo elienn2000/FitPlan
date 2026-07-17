@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Base style for all menu links */
+.menu-item {
+    @apply flex items-center px-4 py-3 text-slate-300 rounded-lg
+    border border-transparent
+    hover:bg-white/5 hover:text-white
+    transition-all duration-200;
+    
+    &.menu-item-logout {
+        @apply text-slate-400
+        hover:bg-red-500/10 hover:text-red-300 hover:border-red-400/20;
+    }
+}
+
+/* When the page is active */
+.menu-item-active {
+    @apply bg-white/10 backdrop-blur-md text-sky-300 font-semibold
+    border-white/15 shadow-sm;
+}
