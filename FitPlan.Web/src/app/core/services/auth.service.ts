@@ -5,12 +5,12 @@ import { BehaviorSubject, tap, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly apiUrl = 'https://localhost:7187/api/Auth'; // Assicurati che sia la porta corretta
-  
+
   // Gestiamo lo stato dell'autenticazione globalmente
   private authSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('accessToken'));
   isLoggedIn$ = this.authSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 1. Registrazione
   register(userData: any): Observable<any> {
@@ -44,5 +44,17 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('accessToken');
+  }
+
+  // Checks
+
+  // Username availability: returns true if available, false if taken
+  checkUsernameAvailability(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check-username-availability?username=${username}`);
+  }
+
+  // Email availability: returns true if available, false if taken
+  checkEmailAvailability(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check-email-availability?email=${email}`);
   }
 }
