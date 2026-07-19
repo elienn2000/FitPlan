@@ -5,4 +5,5 @@
 @import "./styles/components/buttons.css";
 @import "./styles/components/forms.css";
 @import "./styles/components/cards.css";
-@import "./styles/utilities.css"; 
+@import "./styles/components/select.css";
+@import "./styles/utilities.css";
