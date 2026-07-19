@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../../core/services/message.service';
 
 @Component({
     selector: 'app-toast',
@@ -9,5 +9,5 @@ import { MessageService } from '../../services/message.service';
     templateUrl: './toast.component.html',
 })
 export class ToastComponent {
-    constructor(public messageService: MessageService) {}
+    constructor(public messageService: MessageService) { }
 }
