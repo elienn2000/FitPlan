@@ -1,6 +1,5 @@
-<div class="card max-w-md mx-auto p-3 bg-white dark:bg-gray-800 rounded-lg shadow-md">
 
-    <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
         Create an account
     </h2>
 
@@ -109,12 +108,11 @@
     <!-- Description (Optional, post-registration) -->
     <div [class.hidden]="currentStep !== 4 || !registrationSuccess" formGroupName="profile"
         class="space-y-4 animate-fade-in text-center">
-        <div class="text-green-500 text-5xl mb-2">✓</div>
-        <h3 class="text-xl font-bold">Account created successfully</h3>
-        <p class="text-gray-600 text-sm">Would you like to add a short description to your profile? (Optional)</p>
+        <h3 class="text-xl font-bold text-green-500">Account created successfully</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-xs">Would you like to add a short description to your profile? (Optional)</p>
 
-        <textarea formControlName="description" rows="3" class="form-input w-full mt-4"
-            placeholder="Racconta qualcosa di te..."></textarea>
+        <textarea formControlName="description" rows="15" class="form-input w-full mt-4"
+            placeholder="Tell something about yourself..."></textarea>
 
         <div class="flex gap-2 mt-4">
             <button type="button" (click)="skipDescription()"
@@ -125,4 +123,3 @@
 
 
 </form>
-</div>

@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MessageService } from '../../../core/services/message.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Observable, of, timer } from 'rxjs';
 import { map, catchError, finalize, switchMap, take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
+import{UserService} from '../../../core/services/user.service';
 
 
 import { ValidationIconComponent } from '../../shared/validation-icon/validation-icon.component';
@@ -20,22 +23,21 @@ const COUNTRIES = ['Italy', 'Spain', 'France', 'Germany', 'United States', 'Unit
     imports: [CommonModule, ReactiveFormsModule, ValidationIconComponent],
 })
 export class RegisterComponent {
-
-
+    
     // injection of the services
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
-
-
+    
+    
     // async check loading variables
     isUsernameChecking = false;
     isEmailChecking = false;
-
+    
     currentStep = 1;
     countries = COUNTRIES;
     isSubmitting = false;
     registrationSuccess = false;
-
+    
     registerForm = this.fb.group({
         // STEP 1
         account: this.fb.group({
@@ -66,85 +68,103 @@ export class RegisterComponent {
             description: ['']
         })
     });
-
-
-    constructor() {
+    
+    
+    constructor(private router: Router, private messageService: MessageService, private userService: UserService) {
         this.securityForm.get('password')!.valueChanges
-            .pipe(takeUntilDestroyed())
-            .subscribe(() => {
-                this.securityForm.get('confirmPassword')!.updateValueAndValidity();
-            });
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => {
+            this.securityForm.get('confirmPassword')!.updateValueAndValidity();
+        });
     }
-
+    
     // Password validator
     matchOtherValidator(otherControlName: string): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             if (!control.parent) return null; // al primo giro il parent non c'è ancora
-
+            
             const other = control.parent.get(otherControlName);
             if (!other) return null;
-
+            
             return control.value === other.value
-                ? null
-                : { mismatch: { message: 'The passwords do not match' } };
+            ? null
+            : { mismatch: { message: 'The passwords do not match' } };
         };
     }
-
+    
     // Useful getters for easier access to form groups
     get accountForm() { return this.registerForm.get('account') as FormGroup; }
     get personalForm() { return this.registerForm.get('personal') as FormGroup; }
     get securityForm() { return this.registerForm.get('security') as FormGroup; }
     get profileForm() { return this.registerForm.get('profile') as FormGroup; }
-
+    
     nextStep() {
         if (this.currentStep === 1 && this.accountForm.valid) this.currentStep++;
         else if (this.currentStep === 2 && this.personalForm.valid) this.currentStep++;
     }
-
+    
     prevStep() {
         if (this.currentStep > 1) this.currentStep--;
     }
-
+    
     submitRegistration() {
         if (this.currentStep === 3 && this.securityForm.valid) {
             this.isSubmitting = true;
-
-            // Combine all form data into a single payload
+            
             const payload = {
                 ...this.accountForm.value,
                 ...this.personalForm.value,
                 password: this.securityForm.value.password
             };
-
-            // Call the AuthService to register the user
+            
             this.authService.register(payload).pipe(
+                // If registration is successful, automatically log in the user
+                switchMap(() => {
+                    this.messageService.show('success', 'Registration successful!');
+
+                    const loginCredentials = {
+                        email: payload.email, 
+                        username: payload.username, 
+                        password: payload.password
+                    };
+                    return this.authService.login(loginCredentials);
+                }),
                 finalize(() => this.isSubmitting = false)
             ).subscribe({
-                next: (res) => {
-                    console.log('Registration successful:', res);
+                next: (loginResponse) => {
                     this.registrationSuccess = true;
-                    this.currentStep++;
+                    this.currentStep++; 
                 },
                 error: (err) => {
-                    console.error('Registration failed:', err);
-                    // qui eventuale messaggio d'errore in UI
+                    this.messageService.show('error', 'Registration or Login failed. Please try again.');
                 }
             });
-
         }
     }
-
+    
     submitDescription() {
         const description = this.profileForm.value.description;
-        // Redirect login  or dashboard todo
+        this.userService.updateDescription(description).subscribe({
+            next: () => {
+                this.redirectToDashboard();
+            },
+            error: () => {
+                this.messageService.show('error', 'Failed to update description. Please try again.');
+            }
+        });
     }
-
+    
     skipDescription() {
-        // Redirect login  or dashboard todo
+        this.redirectToDashboard();
     }
-
+    
+    redirectToDashboard() {
+        // Redirect to dashboard
+        this.router.navigate(['/app/dashboard']);
+    }
+    
     // Async checks
-
+    
     // Username availability check
     usernameAsyncValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -162,7 +182,7 @@ export class RegisterComponent {
             );
         };
     }
-
+    
     // Email availability check
     emailAsyncValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -180,25 +200,25 @@ export class RegisterComponent {
             );
         };
     }
-
-
+    
+    
     minAgeValidator(minAge: number): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             if (!control.value) return null;
-
+            
             const birthDate = new Date(control.value);
             if (isNaN(birthDate.getTime())) return { invalidDate: { message: 'Data non valida' } };
-
+            
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 age--;
             }
-
+            
             return age >= minAge
-                ? null
-                : { minAge: { message: `Devi avere almeno ${minAge} anni` } };
+            ? null
+            : { minAge: { message: `Devi avere almeno ${minAge} anni` } };
         };
     }
 }

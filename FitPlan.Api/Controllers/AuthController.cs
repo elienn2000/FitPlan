@@ -47,7 +47,8 @@ public class AuthController : ControllerBase
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginDto dto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        var user = dto.Username == null ? await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email)
+                                        : await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
 
         // Verify password
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
@@ -109,4 +110,5 @@ public class AuthController : ControllerBase
         // Return the availability status
         return Ok(new { isAvailable = !isTaken });
     }
+
 }
