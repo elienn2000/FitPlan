@@ -6,9 +6,9 @@
            'bg-blue-500': msg.type === 'info'
          }">
       <div class="flex items-center gap-2">
-        <span *ngIf="msg.type === 'success'">✅</span>
-        <span *ngIf="msg.type === 'error'">🚨</span>
-        <span *ngIf="msg.type === 'info'">ℹ️</span>
+        <!-- <span *ngIf="msg.type === 'success'"></span>
+        <span *ngIf="msg.type === 'error'"></span>
+        <span *ngIf="msg.type === 'info'"></span> -->
         
         <span>{{ msg.text }}</span>
       </div>
