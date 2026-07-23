@@ -6,6 +6,7 @@
     border border-transparent
     hover:bg-white/5 hover:text-white
     transition-all duration-200;
+    cursor: pointer;
     
     &.menu-item-logout {
         @apply text-slate-400
