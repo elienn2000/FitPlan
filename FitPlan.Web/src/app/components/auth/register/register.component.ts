@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { MessageService } from '../../../core/services/message.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Observable, of, timer } from 'rxjs';
@@ -27,7 +27,8 @@ export class RegisterComponent {
     // injection of the services
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
-    
+
+    showPassword = false;
     
     // async check loading variables
     isUsernameChecking = false;
@@ -42,7 +43,7 @@ export class RegisterComponent {
         // STEP 1
         account: this.fb.group({
             username: ['', {
-                validators: [Validators.required, Validators.minLength(3)],
+                validators: [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_]+$/), Validators.maxLength(20)],
                 asyncValidators: [this.usernameAsyncValidator()]
             }]
             ,
@@ -68,6 +69,8 @@ export class RegisterComponent {
             description: ['']
         })
     });
+
+    @Output() switchMode = new EventEmitter<void>();
     
     
     constructor(private router: Router, private messageService: MessageService, private userService: UserService) {
