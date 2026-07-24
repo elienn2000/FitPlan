@@ -1,45 +1,41 @@
-<div class="flex h-screen w-full overflow-hidden [background:var(--bg-app)]">
-  
-  <!-- BACKDROP (Sfondo scuro semitrasparente solo per Mobile) -->
-  <!-- Visibile solo se la sidebar è aperta, cliccandoci si chiude -->
-  <div 
-  *ngIf="isMobileSidebarOpen"
-  (click)="toggleSidebar()"
-  class="fixed inset-0 z-40 bg-gray-900 bg-opacity-50 md:hidden transition-opacity">
-</div>
+<!-- PADDING GLOBALE E BACKGROUND -->
+<div class="flex flex-col h-screen w-full p-3 md:p-5 gap-4 overflow-hidden [background:var(--bg-app)]">
 
-<!-- SIDEBAR -->
-<!-- 
-Mobile: fixed, absolute (z-50), inizialmente nascosta fuori dallo schermo
-Desktop (md:): relativa, sempre visibile (translate-x-0) 
--->
-<app-sidebar 
-class="fixed inset-y-0 left-0 z-50 w-56 transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
-[class.-translate-x-full]="!isMobileSidebarOpen"
-[class.translate-x-0]="isMobileSidebarOpen">
-</app-sidebar>
-
-<!-- CONTENITORE CENTRALE (Topbar + Main + Footer) -->
-<div class="flex flex-col flex-1 min-w-0 overflow-hidden">
-  
-  <!-- TOPBAR: passiamo l'evento al main-layout quando si clicca l'hamburger -->
+  <!-- 1. TOPBAR (Ora occupa tutta la larghezza in alto) -->
   <app-topbar 
-  class="flex items-center justify-between h-20  shadow-sm px-4 shrink-0"
-  (toggleMenu)="toggleSidebar()">
-</app-topbar>
+    class="flex items-center h-20 shrink-0 px-4 rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-white/20"
+    (toggleMenu)="toggleSidebar()">
+  </app-topbar>
 
-<!-- AREA PRINCIPALE: qui dentro andranno le view (es. Dashboard) -->
-<!-- overflow-y-auto permette lo scroll solo in quest'area -->
-<main class="flex-1 overflow-y-auto p-0 md:p-3 rounded-lg
-             bg-white/30 backdrop-blur-lg
-             border border-white/40 shadow-lg">
-  <router-outlet></router-outlet>
-</main>
+  <!-- 2. AREA CENTRALE (Sidebar + Main incastrati in mezzo) -->
+  <!-- min-h-0 è cruciale per far funzionare lo scroll interno su Flexbox -->
+  <div class="flex flex-1 min-h-0 gap-4 relative">
+    
+    <!-- BACKDROP MOBILE -->
+    <div 
+      *ngIf="isMobileSidebarOpen"
+      (click)="toggleSidebar()"
+      class="fixed inset-0 z-40 bg-gray-900/50 md:hidden rounded-2xl transition-opacity">
+    </div>
 
-<!-- FOOTER -->
-<app-footer 
-class="p-4 text-center text-sm text-white shrink-0">
-</app-footer>
+    <!-- SIDEBAR -->
+    <!-- Su mobile è "fixed" (esce dai bordi), su desktop è "relative" (affianca il main) -->
+    <app-sidebar 
+      class="fixed inset-y-0 left-0 z-50 w-56 transition-transform duration-300 ease-in-out md:relative md:translate-x-0"
+      [class.-translate-x-full]="!isMobileSidebarOpen"
+      [class.translate-x-0]="isMobileSidebarOpen">
+    </app-sidebar>
 
-</div>
+    <!-- AREA MAIN -->
+    <main class="flex-1 overflow-y-auto p-4 rounded-2xl bg-white/30 backdrop-blur-lg border border-white/30 shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+  <!-- 3. FOOTER -->
+  <app-footer 
+    class="shrink-0 text-center text-sm text-white/70">
+  </app-footer>
+
 </div>

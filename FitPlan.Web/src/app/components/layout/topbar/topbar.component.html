@@ -1,22 +1,18 @@
- <!-- Contenitore esterno Topbar (flex container) -->
- <div class="flex items-center w-full justify-between h-16 bg-transparent shadow-sm px-4">
-  
-  
-  
-  <!-- Bottone Hamburger visibile SOLO su mobile (md:hidden) -->
-  <button 
-  (click)="onToggle()" 
-  class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-md focus:outline-none">
-  <!-- Icona Hamburger (SVG inline o FontAwesome/Material) -->
+<!-- HAMBURGER (Visibile solo su Mobile) -->
+<button (click)="onToggle()" class="p-2 mr-2 text-white md:hidden hover:bg-white/10 rounded-lg transition-colors">
   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
   </svg>
 </button>
 
-<!-- Logo o titolo visibile sempre -->
-<div class="font-bold text-xl ml-2 md:ml-0 text-gray-800">Mia App</div>
+<!-- LOGO -->
+<!-- Impostiamo h-10 (40px) per l'immagine, così non tocca mai i bordi -->
+<div class="flex items-center h-10 shrink-0 mr-auto">
+  <img src="logo-no-bg.png" alt="Logo" class="h-full w-auto object-contain">
+</div>
 
-<!-- Area utente a destra -->
-<div>Profilo</div>
+<!-- AZIONI A DESTRA (es. Profilo, Notifiche) -->
+<div class="flex items-center gap-4 text-white">
+  <!-- Mettici l'avatar utente o altri bottoni -->
 
 </div>

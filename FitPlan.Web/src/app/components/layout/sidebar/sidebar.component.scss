@@ -9,8 +9,8 @@
     cursor: pointer;
     
     &.menu-item-logout {
-        @apply text-slate-400
-        hover:bg-red-500/10 hover:text-red-300 hover:border-red-400/20;
+        @apply bg-red-500/10 text-red-300 border-red-400/20;
+        &:hover { @apply bg-red-500/20 text-red-200; }
     }
 }
 
